@@ -33,7 +33,8 @@ jobs:
           cd linux-6.1.82
           cat drivers/pci/quirks.c | grep pcie_acs_overrides
           echo -----------------------------------------------
-            git apply acso.patch -v
+          git apply acso.patch -v
+          cat drivers/pci/quirks.c | grep pcie_acs_overrides
 
       - name: Build
         run: |
