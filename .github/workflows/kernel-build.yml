@@ -2,7 +2,6 @@
 name: Build Kernel
 
 on: 
-  push:
   workflow_dispatch:
 
 jobs:
@@ -17,5 +16,13 @@ jobs:
       - name: Get Kernel source
         run: |
           ls -la
-          
-
+          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz
+          tar -xvf linux-6.1.82.tar.xz
+          cp kernel6.1-config linux-6.1.82/.config && cp acso.patch linux-6.1.82/acso.patch
+          cd linux-6.1.82
+          git apply acso.patch
+          echo $(nproc)
+          make -j$(nproc)
+          make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
+          ls -la
+          ls -la ../
