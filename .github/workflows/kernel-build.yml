@@ -31,7 +31,6 @@ jobs:
           pwd
           ls -la
           cd linux-6.1.82
-          git apply acso.patch -v
           cat drivers/pci/quirks.c | grep pcie_acs_overrides
 
       - name: Build
