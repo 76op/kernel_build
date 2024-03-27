@@ -31,8 +31,7 @@ jobs:
           pwd
           ls -la
           cd linux-6.1.82
-          ls -la
-          git apply acso.patch
+          cat drivers/pci/quirks.c
 
       - name: Build
         run: |
