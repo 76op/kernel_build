@@ -26,7 +26,8 @@ jobs:
           cp debian12-config linux-6.1.82/.config
           cp acso.patch linux-6.1.82/acso.patch
           cd linux-6.1.82
-          patch acso.patch
+          git init
+          git apply acso.patch
           echo "$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)"
           echo "-----"
 
