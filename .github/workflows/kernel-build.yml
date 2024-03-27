@@ -35,7 +35,7 @@ jobs:
           ls -la
           echo $(nproc)
           cd linux-6.1.82
-          make -j$(nproc) > /dev/null 2>&1
+          make -j$(nproc)
 
       - name: Build DebPkg
         run: |
