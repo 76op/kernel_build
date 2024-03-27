@@ -16,7 +16,7 @@ jobs:
       - name: Get Kernel source
         run: |
           ls -la
-          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz
+          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz > /dev/null 2>&1
           tar -xvf linux-6.1.82.tar.xz > /dev/null 2>&1
 
       - name: Patch
@@ -28,6 +28,7 @@ jobs:
           cd linux-6.1.82
           patch acso.patch
           echo "$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)"
+          echo "-----"
 
       - name: Build
         run: |
