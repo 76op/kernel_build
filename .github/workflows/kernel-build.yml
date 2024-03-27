@@ -29,7 +29,6 @@ jobs:
           git init
           git apply acso.patch
           echo "$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)"
-          echo "-----"
 
       - name: Build
         run: |
