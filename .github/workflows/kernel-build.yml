@@ -18,9 +18,16 @@ jobs:
           ls -la
           wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz -q
           tar -xvf linux-6.1.82.tar.xz
+          
+      - name: Apply Patch
+        run: |
           cp kernel6.1-config linux-6.1.82/.config && cp acso.patch linux-6.1.82/acso.patch
           cd linux-6.1.82
           git apply acso.patch
+
+      - name: Start Build
+        run: |
+          ls -la ../
           echo $(nproc)
           make -j$(nproc) > /dev/null 2>&1
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1 > /dev/null 2>&1
