@@ -27,8 +27,7 @@ jobs:
           cp acso.patch linux-6.1.82/acso.patch
           cd linux-6.1.82
           patch acso.patch
-          COMMAND=$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)
-          awk "$COMMAND"
+          awk "$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)"
 
       - name: Build
         run: |
