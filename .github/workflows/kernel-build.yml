@@ -19,15 +19,20 @@ jobs:
           wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz
           tar -xvf linux-6.1.82.tar.xz > /dev/null 2>&1
 
-      - name: Apply Patch
+      - name: Copy Patch
         run: |
           pwd
           ls -la
           cp debian12-config linux-6.1.82/.config
           cp acso.patch linux-6.1.82/acso.patch
-          cd linux-6.1.82
-          ls -la
-          git apply acso.patch
+
+      - name: Apply Patch
+        run: |
+            pwd
+            ls -la
+            cd linux-6.1.82
+            ls -la
+            git apply acso.patch
 
       - name: Build
         run: |
