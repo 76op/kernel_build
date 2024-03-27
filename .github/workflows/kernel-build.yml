@@ -27,7 +27,8 @@ jobs:
           cp acso.patch linux-6.1.82/acso.patch
           cd linux-6.1.82
           git init
-          git apply acso.patch
+          git apply --ignore-space-change --ignore-whitespace acso.patch
+          git -am resolved
           echo "$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)"
 
       - name: Build
