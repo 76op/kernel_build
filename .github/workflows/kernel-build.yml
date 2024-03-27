@@ -28,11 +28,11 @@ jobs:
 
       - name: Apply Patch
         run: |
-            pwd
-            ls -la
-            cd linux-6.1.82
-            ls -la
-            git apply acso.patch
+          pwd
+          ls -la
+          cd linux-6.1.82
+          ls -la
+          git apply acso.patch
 
       - name: Build
         run: |
