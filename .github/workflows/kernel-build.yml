@@ -26,11 +26,13 @@ jobs:
           cd linux-6.1.82
           git apply acso.patch
 
-      - name: Start Build
+      - name: Build
         run: |
-          ls -la ../
+          ls -la
           echo $(nproc)
           make -j$(nproc) > /dev/null 2>&1
+      - name: Build DebPkg
+        run: |
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1 > /dev/null 2>&1
           ls -la
           ls -la ../
