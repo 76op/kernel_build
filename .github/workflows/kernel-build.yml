@@ -1,0 +1,21 @@
+
+name: Build Kernel
+
+on: 
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-kernel:
+    runs-on: ubuntu-latest
+    container: ghcr.io/76op/kernel_build:main
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get Kernel source
+        run: |
+          ls -la
+          
+
