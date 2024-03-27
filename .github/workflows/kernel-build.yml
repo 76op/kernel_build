@@ -24,6 +24,7 @@ jobs:
           ls -la
           cp debian12-config linux-6.1.82/.config && cp acso.patch linux-6.1.82/acso.patch
           cd linux-6.1.82
+          ls -la
           git apply acso.patch
 
       - name: Build
