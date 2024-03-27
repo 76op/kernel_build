@@ -21,6 +21,7 @@ jobs:
 
       - name: Apply Patch
         run: |
+          pwd
           ls -la
           cp debian12-config linux-6.1.82/.config
           cp acso.patch linux-6.1.82/acso.patch
