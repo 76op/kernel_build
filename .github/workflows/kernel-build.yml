@@ -31,12 +31,15 @@ jobs:
           pwd
           ls -la
           cd linux-6.1.82
+          git apply acso.patch -v
+          echo -----------------------------------------------
           cat drivers/pci/quirks.c
 
       - name: Build
         run: |
           ls -la
           echo $(nproc)
+          cd linux-6.1.82
           make -j$(nproc) > /dev/null 2>&1
 
       - name: Build DebPkg
