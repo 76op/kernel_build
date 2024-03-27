@@ -16,7 +16,7 @@ jobs:
       - name: Get Kernel source
         run: |
           ls -la
-          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz --quite
+          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz
           tar -xvf linux-6.1.82.tar.xz > /dev/null 2>&1
 
       - name: Apply Patch
@@ -34,6 +34,7 @@ jobs:
           ls -la
           echo $(nproc)
           make -j$(nproc) > /dev/null 2>&1
+
       - name: Build DebPkg
         run: |
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1 > /dev/null 2>&1
