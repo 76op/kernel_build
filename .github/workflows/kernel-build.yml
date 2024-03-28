@@ -39,6 +39,9 @@ jobs:
 
       - name: Build DebPkg
         run: |
-          make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1 > /dev/null 2>&1
+          pwd
+          ls -la
+          cd linux-6.1.82
+          make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
           ls -la
           ls -la ../
