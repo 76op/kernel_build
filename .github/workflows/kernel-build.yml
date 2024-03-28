@@ -35,13 +35,14 @@ jobs:
           ls -la
           echo $(nproc)
           cd linux-6.1.82
-          make -j$(nproc)
+#          make -j$(nproc)
 
       - name: Build DebPkg
         run: |
           pwd
           ls -la
           cd linux-6.1.82
+          apt update && apt install rsync kmod cpio -y
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
           ls -la
           ls -la ../
