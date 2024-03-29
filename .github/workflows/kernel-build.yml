@@ -7,7 +7,7 @@ on:
 jobs:
   build-kernel:
     runs-on: ubuntu-latest
-    container: ghcr.io/76op/kernel_build:main
+#    container: ghcr.io/76op/kernel_build:main
     permissions:
       packages: write
       contents: read
@@ -16,6 +16,11 @@ jobs:
       - name: Get Kernel source
         run: |
           ls -la
+          cd /
+          mkdir work
+          cd /work
+          RUN apt update && apt install wget tar xz-utils git -y
+          RUN apt install -y build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
           wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz > /dev/null 2>&1
           tar -xvf linux-6.1.82.tar.xz > /dev/null 2>&1
 
