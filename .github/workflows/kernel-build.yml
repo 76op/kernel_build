@@ -32,8 +32,11 @@ jobs:
       - name: Get Kernel source
         run: |
           ls -la
-          sudo apt update && apt install wget tar xz-utils git -y
-          sudo apt install -y build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
+          sudo rm /var/lib/dpkg/lock-frontend
+          sudo rm /var/lib/dpkg/lock
+          sudo rm /var/cache/apt/archives/lock
+          sudo apt update
+          sudo apt install -y wget tar xz-utils git build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
           wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz > /dev/null 2>&1
           tar -xvf linux-6.1.82.tar.xz > /dev/null 2>&1
 
