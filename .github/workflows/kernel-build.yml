@@ -31,6 +31,7 @@ jobs:
       - name: Get Kernel source
         run: |
           ls -la
+          sudo docker images -a
           sudo rm /var/lib/dpkg/lock-frontend
           sudo rm /var/lib/dpkg/lock
           sudo rm /var/cache/apt/archives/lock
