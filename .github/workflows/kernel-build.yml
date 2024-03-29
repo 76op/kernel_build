@@ -42,6 +42,7 @@ jobs:
           pwd
           ls -la
           cd linux-6.1.82
+          apt update && apt install rsync kmod cpio -y
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
           ls -la
           ls -la ../
