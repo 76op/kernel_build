@@ -12,14 +12,30 @@ jobs:
       packages: write
       contents: read
     steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # this might remove tools that are actually needed,
+          # when set to "true" but frees about 6 GB
+          tool-cache: true
+          
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          swap-storage: true
+
+
       - uses: actions/checkout@v3
       - name: Get Kernel source
         run: |
           ls -la
           mkdir work
           cd ./work
-          apt update && apt install wget tar xz-utils git -y
-          apt install -y build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
+          sudo apt update && apt install wget tar xz-utils git -y
+          sudo apt install -y build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
           wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz > /dev/null 2>&1
           tar -xvf linux-6.1.82.tar.xz > /dev/null 2>&1
 
@@ -46,7 +62,7 @@ jobs:
           pwd
           ls -la
           cd linux-6.1.82
-          apt update && apt install rsync kmod cpio -y
+          sudo apt update && apt install rsync kmod cpio -y
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
           ls -la
           ls -la ../
