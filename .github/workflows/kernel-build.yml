@@ -36,7 +36,7 @@ jobs:
           sudo rm /var/lib/dpkg/lock
           sudo rm /var/cache/apt/archives/lock
           sudo apt update
-          sudo apt install -y wget tar xz-utils git build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
+          apt install -y wget tar xz-utils git build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
           wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.82.tar.xz > /dev/null 2>&1
           tar -xvf linux-6.1.82.tar.xz > /dev/null 2>&1
 
@@ -63,7 +63,7 @@ jobs:
           pwd
           ls -la
           cd linux-6.1.82
-          sudo apt update && apt install rsync kmod cpio -y
+          apt install rsync kmod cpio -y
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
           ls -la
           ls -la ../
