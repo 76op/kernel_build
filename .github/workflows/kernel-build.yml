@@ -67,3 +67,12 @@ jobs:
           make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
           ls -la
           ls -la ../
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Upload DebPkg
+          path: |
+            ../linux-headers-6.1.82-bookworm_6.1.82-1_amd64.deb
+            ../linux-libc-dev_6.1.82-1_amd64.deb
+            ../linux-image-6.1.82-bookworm_6.1.82-1_amd64.deb
+            ../linux-image-6.1.82-bookworm-dbg_6.1.82-1_amd64.deb
