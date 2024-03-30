@@ -68,11 +68,16 @@ jobs:
           ls -la
           ls -la ../
 
-      - uses: actions/upload-artifact@v4
+      - name: Workaround actions/upload-artifact#176
+        run: |
+          echo "artifacts_path=$(realpath ..)" >> $GITHUB_ENV
+
+      - name: Upload DebPkg
+        uses: actions/upload-artifact@v4
         with:
-          name: Upload DebPkg
+          name: debian12-packages
           path: |
-            ../linux-headers-6.1.82-bookworm_6.1.82-1_amd64.deb
-            ../linux-libc-dev_6.1.82-1_amd64.deb
-            ../linux-image-6.1.82-bookworm_6.1.82-1_amd64.deb
-            ../linux-image-6.1.82-bookworm-dbg_6.1.82-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-headers-6.1.82-bookworm_6.1.82-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-libc-dev_6.1.82-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-image-6.1.82-bookworm_6.1.82-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-image-6.1.82-bookworm-dbg_6.1.82-1_amd64.deb
