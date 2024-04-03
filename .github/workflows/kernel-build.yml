@@ -70,7 +70,10 @@ jobs:
 
       - name: Workaround actions/upload-artifact#176
         run: |
-          echo "artifacts_path=$(realpath ..)" >> $GITHUB_ENV
+          pwd
+          ls -la .
+          ls -la ..
+          echo "artifacts_path=$(realpath .)" >> $GITHUB_ENV
 
       - name: Upload DebPkg
         uses: actions/upload-artifact@v4
