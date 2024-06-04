@@ -1,0 +1,86 @@
+
+name: Build Kernel
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build-kernel:
+    runs-on: ubuntu-latest
+#    container: ghcr.io/76op/kernel_build:main
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # this might remove tools that are actually needed,
+          # when set to "true" but frees about 6 GB
+          tool-cache: true
+          
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          swap-storage: true
+
+      - uses: actions/checkout@v3
+      - name: Get Kernel source
+        run: |
+          ls -la
+          sudo docker images -a
+          sudo rm /var/lib/dpkg/lock-frontend
+          sudo rm /var/lib/dpkg/lock
+          sudo rm /var/cache/apt/archives/lock
+          sudo apt update
+          sudo apt install -y wget tar xz-utils git build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
+          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.92.tar.xz > /dev/null 2>&1
+          tar -xvf linux-6.1.92.tar.xz > /dev/null 2>&1
+
+      - name: Patch
+        run: |
+          pwd
+          ls -la
+          cp debian12-config linux-6.1.92/.config
+          cp acso.patch linux-6.1.92/acso.patch
+          cd linux-6.1.92
+          git init
+          git apply acso.patch
+          echo "$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)"
+
+      - name: Build
+        run: |
+          ls -la
+          echo $(nproc)
+          cd linux-6.1.82
+#          make -j$(nproc)
+
+      - name: Build DebPkg
+        run: |
+          pwd
+          ls -la
+          cd linux-6.1.82
+          sudo apt install rsync kmod cpio -y
+          make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
+          ls -la
+          ls -la ../
+
+      - name: Workaround actions/upload-artifact#176
+        run: |
+          pwd
+          ls -la .
+          ls -la ..
+          echo "artifacts_path=$(realpath .)" >> $GITHUB_ENV
+
+      - name: Upload DebPkg
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian12-packages
+          path: |
+            ${{ env.artifacts_path }}/linux-headers-6.1.92-bookworm_6.1.92-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-libc-dev_6.1.92-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-image-6.1.82-bookworm_6.1.92-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-image-6.1.92-bookworm-dbg_6.1.92-1_amd64.deb
