@@ -1,5 +1,5 @@
 
-name: Build Kernel
+name: ubuntu2204 acso build
 
 on: 
   workflow_dispatch:

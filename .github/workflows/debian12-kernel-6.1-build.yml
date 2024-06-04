@@ -1,5 +1,5 @@
 
-name: Build Kernel
+name: debian12 acso build
 
 on: 
   workflow_dispatch:
