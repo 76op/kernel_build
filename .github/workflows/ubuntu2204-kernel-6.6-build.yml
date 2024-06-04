@@ -37,16 +37,16 @@ jobs:
           sudo rm /var/cache/apt/archives/lock
           sudo apt update
           sudo apt install -y wget tar xz-utils git build-essential flex bison libncurses-dev libelf-dev libssl-dev bc python3 dwarves pahole cpio rsync kmod
-          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.92.tar.xz > /dev/null 2>&1
-          tar -xvf linux-6.1.92.tar.xz > /dev/null 2>&1
+          wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.32.tar.xz > /dev/null 2>&1
+          tar -xvf linux-6.6.32.tar.xz > /dev/null 2>&1
 
       - name: Patch
         run: |
           pwd
           ls -la
-          cp debian12-config linux-6.1.92/.config
-          cp acso.patch linux-6.1.92/acso.patch
-          cd linux-6.1.92
+          cp ubuntu2204/ubuntu2204-config linux-6.6.32/.config
+          cp ubuntu2204/acso.patch linux-6.6.32/acso.patch
+          cd linux-6.6.32
           git init
           git apply acso.patch
           echo "$(cat drivers/pci/quirks.c | grep pcie_acs_overrides)"
@@ -55,16 +55,16 @@ jobs:
         run: |
           ls -la
           echo $(nproc)
-          cd linux-6.1.82
+          cd linux-6.6.32
 #          make -j$(nproc)
 
       - name: Build DebPkg
         run: |
           pwd
           ls -la
-          cd linux-6.1.82
+          cd linux-6.6.32
           sudo apt install rsync kmod cpio -y
-          make deb-pkg LOCALVERSION=-bookworm KDEB_PKGVERSION=$(make kernelversion)-1
+          make deb-pkg LOCALVERSION=-acso KDEB_PKGVERSION=$(make kernelversion)-1
           ls -la
           ls -la ../
 
@@ -80,7 +80,7 @@ jobs:
         with:
           name: debian12-packages
           path: |
-            ${{ env.artifacts_path }}/linux-headers-6.1.92-bookworm_6.1.92-1_amd64.deb
-            ${{ env.artifacts_path }}/linux-libc-dev_6.1.92-1_amd64.deb
-            ${{ env.artifacts_path }}/linux-image-6.1.82-bookworm_6.1.92-1_amd64.deb
-            ${{ env.artifacts_path }}/linux-image-6.1.92-bookworm-dbg_6.1.92-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-headers-6.6.32-bookworm_6.6.32-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-libc-dev_6.6.32-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-image-6.1.82-bookworm_6.6.32-1_amd64.deb
+            ${{ env.artifacts_path }}/linux-image-6.6.32-bookworm-dbg_6.6.32-1_amd64.deb
