@@ -1,5 +1,5 @@
 
-name: debian12 acso build
+name: kernel-6.1 acso build
 
 on: 
   workflow_dispatch:
@@ -44,8 +44,8 @@ jobs:
         run: |
           pwd
           ls -la
-          cp debian12/debian12-config linux-6.1.92/.config
-          cp debian12/acso.patch linux-6.1.92/acso.patch
+          cp kernel-6.1/kernel-6.1-config linux-6.1.92/.config
+          cp kernel-6.1/acso.patch linux-6.1.92/acso.patch
           cd linux-6.1.92
           git init
           git apply acso.patch
